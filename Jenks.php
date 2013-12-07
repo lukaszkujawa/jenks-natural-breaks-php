@@ -22,6 +22,7 @@ class Jenks {
 		$j = 0;
 		$variance = 0;
 
+		
 		for($i = 0 ; $i < sizeof( $data ) + 1 ; $i++) {
 			$tmp1 = array(); 
 			$tmp2 = array();
