@@ -6,7 +6,7 @@
  *  
  *	This is PHP port of https://gist.github.com/tmcw/4977508 by Tom MacWright
  *
- *  Usage:
+ *	Usage:
  *		$data = array(1,2,3,4,10,24,26,100,101);
  *		print_r( Jenks::getBreaks( $data, 4 ) );
  *
@@ -87,31 +87,31 @@ class Jenks {
 	static private function _getBreaks($data, $lowerClassLimits, $numClasses) {
  		$k = sizeof( $data ) - 1;
  		$kclass = array_fill(0, $numClasses + 1, 0);
-        $countNum = $numClasses;
+		$countNum = $numClasses;
  
-        $kclass[ $numClasses] = $data[ sizeof( $data ) - 1 ];
-        $kclass[ 0 ] = $data[ 0 ];
+		$kclass[ $numClasses] = $data[ sizeof( $data ) - 1 ];
+		$kclass[ 0 ] = $data[ 0 ];
  
-        while( $countNum > 1 ) {
-            $kclass[ $countNum - 1 ] = $data[ $lowerClassLimits[ $k ][ $countNum ] - 2 ];
-            $k = $lowerClassLimits[ $k ][ $countNum ] - 1;
-            $countNum--;
+		while( $countNum > 1 ) {
+			$kclass[ $countNum - 1 ] = $data[ $lowerClassLimits[ $k ][ $countNum ] - 2 ];
+			$k = $lowerClassLimits[ $k ][ $countNum ] - 1;
+			$countNum--;
         }
  
-        return $kclass;
+		return $kclass;
     }
 
     static public function getBreaks($data, $numClasses) {
-    	if( $numClasses > sizeof( $data ) ) {
-    		return null;
+		if( $numClasses > sizeof( $data ) ) {
+			return null;
     	}
  		
- 		sort( $data );
+		sort( $data );
  
-    	$matrices = self::getMatrices($data, $numClasses);
-        $lowerClassLimits = $matrices[ 'lowerClassLimits' ];
+		$matrices = self::getMatrices($data, $numClasses);
+		$lowerClassLimits = $matrices[ 'lowerClassLimits' ];
  		
-    	return self::_getBreaks($data, $lowerClassLimits, $numClasses);
+		return self::_getBreaks($data, $lowerClassLimits, $numClasses);
     }
 
 }
