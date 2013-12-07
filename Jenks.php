@@ -45,48 +45,48 @@ class Jenks {
         }
 
 		for($l = 2; $l < sizeof( $data ) + 1; $l++) {
-            $sum = 0;
-            $sumSquares = 0;
-            $w = 0;
-            $i4 = 0;
+
+			$sum = 0;
+			$sumSquares = 0;
+			$w = 0;
+			$i4 = 0;
+            
+			for($m = 1; $m < $l + 1; $m++) {
+				$lowerClassLimit = $l - $m + 1;
+				$val = $data[ $lowerClassLimit - 1 ];
+
+				$w++;
  
-            for($m = 1; $m < $l + 1; $m++) {
-                $lowerClassLimit = $l - $m + 1;
-                $val = $data[ $lowerClassLimit - 1 ];
+				$sum += $val;
+				$sumSquares += $val * $val;
+                
+				$variance = $sumSquares - ($sum * $sum) / $w;
+				$i4 = $lowerClassLimit - 1;
+                
+				if($i4 !== 0) {
+					for ($j = 2; $j < $numClasses + 1; $j++) {
+						if ($varianceCombinations[ $l ][ $j ] >= ( $variance + $varianceCombinations[ $i4 ][ $j - 1 ] ) ) {
+							$lowerClassLimits[ $l ][ $j ] = $lowerClassLimit;
+							$varianceCombinations[ $l ][ $j ] = $variance + $varianceCombinations[ $i4 ][ $j - 1 ];
+						}
+					}
+				}
+			}
  
-                $w++;
- 
-                $sum += $val;
-                $sumSquares += $val * $val;
- 
-                $variance = $sumSquares - ($sum * $sum) / $w;
- 
-                $i4 = $lowerClassLimit - 1;
- 
-                if($i4 !== 0) {
-                    for ($j = 2; $j < $numClasses + 1; $j++) {
-                        if ($varianceCombinations[ $l ][ $j ] >= ( $variance + $varianceCombinations[ $i4 ][ $j - 1 ] ) ) {
-                            $lowerClassLimits[ $l ][ $j ] = $lowerClassLimit;
-                            $varianceCombinations[ $l ][ $j ] = $variance + $varianceCombinations[ $i4 ][ $j - 1 ];
-                        }
-                    }
-                }
-            }
- 
-            $lowerClassLimits[ $l ][ 1 ] = 1;
-            $varianceCombinations[ $l ][ 1 ] = $variance;
+			$lowerClassLimits[ $l ][ 1 ] = 1;
+			$varianceCombinations[ $l ][ 1 ] = $variance;
         }
  
-        return array(
-            'lowerClassLimits' => $lowerClassLimits,
-            'varianceCombinations' => $varianceCombinations
+		return array(
+			'lowerClassLimits' => $lowerClassLimits,
+			'varianceCombinations' => $varianceCombinations
         );            
 
 	}
 
 	static private function _getBreaks($data, $lowerClassLimits, $numClasses) {
- 		$k = sizeof( $data ) - 1;
- 		$kclass = array_fill(0, $numClasses + 1, 0);
+		$k = sizeof( $data ) - 1;
+		$kclass = array_fill(0, $numClasses + 1, 0);
 		$countNum = $numClasses;
  
 		$kclass[ $numClasses] = $data[ sizeof( $data ) - 1 ];
@@ -104,8 +104,8 @@ class Jenks {
     static public function getBreaks($data, $numClasses) {
 		if( $numClasses > sizeof( $data ) ) {
 			return null;
-    	}
- 		
+		}
+
 		sort( $data );
  
 		$matrices = self::getMatrices($data, $numClasses);
